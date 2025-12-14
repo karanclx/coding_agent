@@ -92,6 +92,16 @@ def execute_tool(name: str, args: dict) -> str:
     elif name == "list_files":
         return list_files(args.get("path", "."))
     return "Unknown tool"
+def create_folder(path: str):
+    try:
+        os.makedirs(path, exist_ok=True)
+        return f"Successfully created a folder at path:{path}"
+    except PermissionError:
+        return f"Error: Permission denied. Cannot Create a folder at {path}"
+    except OSError as e:
+        return f"Error: OS Error creating folder: {e}"
+    except Exception as e:
+        return f"Error: Unexpected error: {e}"
 
 # ReAct Loop - Fixed for Mistral/OpenAI API
 def run_agent(user_message: str, history: list = None) -> None:
